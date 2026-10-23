@@ -1,0 +1,370 @@
+{
+  "total_duration_sec": 600.0,
+  "placements": [
+    {
+      "id": "01_hook_and_day",
+      "start": 0.35,
+      "end": 43.616,
+      "duration": 43.266,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "02_problems_1_to_3",
+      "start": 44.229,
+      "end": 108.261,
+      "duration": 64.032,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "03a_problems_4_5",
+      "start": 108.655,
+      "end": 139.477,
+      "duration": 30.821,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "03b_facecam_reset",
+      "start": 139.958,
+      "end": 153.861,
+      "duration": 13.903,
+      "face_cam": true,
+      "silence_zone": false
+    },
+    {
+      "id": "04a_math_build",
+      "start": 154.255,
+      "end": 179.015,
+      "duration": 24.759,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "04b_2saal_and_surveys",
+      "start": 179.409,
+      "end": 223.592,
+      "duration": 44.183,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "05a_jobs_plfs",
+      "start": 223.987,
+      "end": 249.6,
+      "duration": 25.614,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "05b_ncrb_telemanas",
+      "start": 249.951,
+      "end": 283.342,
+      "duration": 33.391,
+      "face_cam": false,
+      "silence_zone": true
+    },
+    {
+      "id": "05c_india_2041_window",
+      "start": 284.481,
+      "end": 309.054,
+      "duration": 24.574,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "06a_influencer_lie",
+      "start": 309.492,
+      "end": 341.174,
+      "duration": 31.682,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "06b_facecam_trust",
+      "start": 341.524,
+      "end": 363.235,
+      "duration": 21.711,
+      "face_cam": true,
+      "silence_zone": false
+    },
+    {
+      "id": "07_sebi_and_foundation",
+      "start": 363.586,
+      "end": 413.156,
+      "duration": 49.57,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "08a_two_futures_2036",
+      "start": 413.594,
+      "end": 459.471,
+      "duration": 45.877,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "08b_facecam_interrupt",
+      "start": 459.778,
+      "end": 469.074,
+      "duration": 9.296,
+      "face_cam": true,
+      "silence_zone": false
+    },
+    {
+      "id": "09a_country_365cr",
+      "start": 469.424,
+      "end": 500.057,
+      "duration": 30.632,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "09b_khara_ganit",
+      "start": 500.495,
+      "end": 506.326,
+      "duration": 5.832,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "09c_steps_1_to_3",
+      "start": 506.72,
+      "end": 535.449,
+      "duration": 28.729,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "10a_steps_4_5",
+      "start": 535.8,
+      "end": 566.44,
+      "duration": 30.64,
+      "face_cam": false,
+      "silence_zone": false
+    },
+    {
+      "id": "10b_facecam_close",
+      "start": 566.834,
+      "end": 590.556,
+      "duration": 23.722,
+      "face_cam": true,
+      "silence_zone": false
+    },
+    {
+      "id": "10c_final_callback",
+      "start": 591.082,
+      "end": 596.2,
+      "duration": 5.118,
+      "face_cam": true,
+      "silence_zone": false
+    }
+  ],
+  "zero_silence_windows": [
+    [
+      179.03,
+      179.39
+    ],
+    [
+      249.75,
+      284.38
+    ],
+    [
+      500.08,
+      500.48
+    ],
+    [
+      590.58,
+      600.0
+    ]
+  ],
+  "sfx_cue_sheet": [
+    {
+      "time": 0.08,
+      "sfx": "sub_impact",
+      "note": "1-frame white flash + hook slam"
+    },
+    {
+      "time": 2.6,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 3.1,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 3.6,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 4.1,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 4.6,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 5.1,
+      "sfx": "clock_tick",
+      "note": "Hook clock ticks"
+    },
+    {
+      "time": 5.9,
+      "sfx": "whoosh",
+      "note": "Thumb 3x scroll cut"
+    },
+    {
+      "time": 7.8,
+      "sfx": "sub_impact",
+      "note": "Smash zoom yellow 2 SAAL"
+    },
+    {
+      "time": 13.8,
+      "sfx": "alarm_buzz",
+      "note": "Subah alarm"
+    },
+    {
+      "time": 16.8,
+      "sfx": "phone_vibrate",
+      "note": "Phone vibration"
+    },
+    {
+      "time": 19.2,
+      "sfx": "notif_ping",
+      "note": "Generic notification ping"
+    },
+    {
+      "time": 21.4,
+      "sfx": "whoosh",
+      "note": "Reels montage cut 1"
+    },
+    {
+      "time": 23.5,
+      "sfx": "whoosh",
+      "note": "Reels montage cut 2"
+    },
+    {
+      "time": 34.5,
+      "sfx": "record_scratch",
+      "note": "Record scratch before Kal se pakka"
+    },
+    {
+      "time": 42.83,
+      "sfx": "riser",
+      "note": "Riser into 5 Problems"
+    },
+    {
+      "time": 48.43,
+      "sfx": "sub_impact",
+      "note": "PROBLEM 1"
+    },
+    {
+      "time": 72.73,
+      "sfx": "sub_impact",
+      "note": "PROBLEM 2"
+    },
+    {
+      "time": 92.23,
+      "sfx": "sub_impact",
+      "note": "PROBLEM 3"
+    },
+    {
+      "time": 109.06,
+      "sfx": "sub_impact",
+      "note": "PROBLEM 4"
+    },
+    {
+      "time": 123.86,
+      "sfx": "sub_impact",
+      "note": "PROBLEM 5"
+    },
+    {
+      "time": 138.96,
+      "sfx": "riser",
+      "note": "Riser into Face-Cam Reset"
+    },
+    {
+      "time": 154.45,
+      "sfx": "sub_impact",
+      "note": "Math start"
+    },
+    {
+      "time": 179.46,
+      "sfx": "sub_impact",
+      "note": "BIG REVEAL: DO SAAL!"
+    },
+    {
+      "time": 229.99,
+      "sfx": "sub_impact",
+      "note": "PLFS 9.9% & 15%"
+    },
+    {
+      "time": 308.19,
+      "sfx": "riser",
+      "note": "Riser into Influencer Lie"
+    },
+    {
+      "time": 314.49,
+      "sfx": "glitch_burst",
+      "note": "Fake thumbnail crack"
+    },
+    {
+      "time": 327.99,
+      "sfx": "brass_stab",
+      "note": "BRASS STAB: Tum Maal Ho"
+    },
+    {
+      "time": 366.39,
+      "sfx": "sub_impact",
+      "note": "SEBI Action"
+    },
+    {
+      "time": 413.79,
+      "sfx": "sub_impact",
+      "note": "2036 Split"
+    },
+    {
+      "time": 459.43,
+      "sfx": "record_scratch",
+      "note": "6s Face-Cam Interrupt"
+    },
+    {
+      "time": 500.55,
+      "sfx": "sub_impact",
+      "note": "Ye khara ganit hai"
+    },
+    {
+      "time": 510.92,
+      "sfx": "lock_click",
+      "note": "STEP 1"
+    },
+    {
+      "time": 520.72,
+      "sfx": "lock_click",
+      "note": "STEP 2"
+    },
+    {
+      "time": 529.22,
+      "sfx": "lock_click",
+      "note": "STEP 3"
+    },
+    {
+      "time": 536.3,
+      "sfx": "lock_click",
+      "note": "STEP 4"
+    },
+    {
+      "time": 548.8,
+      "sfx": "lock_click",
+      "note": "STEP 5"
+    }
+  ]
+}
