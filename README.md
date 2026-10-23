@@ -1,20 +1,20 @@
 # Aryan Chaudhary Extra — Video #01: *Tum Hi Se Baat Kar Raha Hoon* (10:00 Full HD Master)
 
-### 🎬 [⬇️ CLICK HERE TO DOWNLOAD YOUR 10:00 FULL HD `.MP4` VIDEO (40 MB)](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/download/v1.0.0/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4)
+### 🎬 [⬇️ CLICK HERE TO DOWNLOAD YOUR 10:00 FULL HD `.MP4` VIDEO (40 MB)](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/videos/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4)
 
-*(Backup Direct Raw Link: [Download `Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4`](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/videos/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4) · Note: GitHub does not stream 40 MB MP4 files inside its code viewer — click either link above or open [**Releases → v1.0.0**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/tag/v1.0.0) to download and play on your phone/PC!)*
+> **Important GitHub Tip:** Because this Full HD video is `40 MB`, clicking the file inside GitHub's code browser shows *"View raw"* instead of an inline player. **Click the big link above** (or open [`videos/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4`](videos/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4) and click **"Download raw file"**) to save & play the `.mp4` directly on your phone or computer!
 
 ---
 
 ## 📦 Direct One-Click Downloads
 
-| Asset | Spec | Direct Download Link |
+| Asset | Spec | One-Click Download |
 |---|---|---|
-| **1. Ready 10:00 Master Video (`.mp4`)** | `1920×1080` · `24 fps` · H.264 + AAC (`40 MB`) | [**⬇️ Download Master MP4**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/download/v1.0.0/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4) |
-| **2. Clean Music + SFX Only (`.m4a`)** | `10:00` Stereo — **Zero AI Voice** (Swap in your own voice!) | [**⬇️ Download Music+SFX Stem**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/download/v1.0.0/bgm_and_sfx_only_10min.m4a) |
-| **3. Isolated AI Voice Timing Guide (`.m4a`)** | `10:00` Timed Reference Voiceover | [**⬇️ Download Voice Timing Guide**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/download/v1.0.0/ai_voiceover_timed_10min.m4a) |
-| **4. Main YouTube Thumbnail (`1920×1080`)** | MrBeast / Dhruv Rathee High-CTR Winner | [**⬇️ Download Thumbnail #1**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/releases/download/v1.0.0/01_MRBEAST_2_SAAL_MAIN.jpg) |
-| **5. Full Written Production Package (`A–G`)** | Scored Hooks, 1,325-Word Script Table, SFX Cues, 5 Shorts | [**📄 View Full Script & Package (`docs/MASTER_PRODUCTION_PACKAGE_A_TO_G.md`)**](docs/MASTER_PRODUCTION_PACKAGE_A_TO_G.md) |
+| **1. Ready 10:00 Master Video (`.mp4`)** | `1920×1080` · `24 fps` · H.264 + Stereo AAC (`40 MB`) | [**⬇️ Download `Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4`**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/videos/Tum_Hi_Se_Baat_Kar_Raha_Hoon_10min_MASTER.mp4) |
+| **2. Clean Music + SFX Only (`.m4a`)** | `10:00` Stereo — **Zero AI Voice** (Swap in your own voice!) | [**⬇️ Download `bgm_and_sfx_only_10min.m4a`**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/videos/audio_stems/bgm_and_sfx_only_10min.m4a) |
+| **3. Isolated AI Voice Timing Guide (`.m4a`)** | `10:00` Timed Reference Voiceover | [**⬇️ Download `ai_voiceover_timed_10min.m4a`**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/videos/audio_stems/ai_voiceover_timed_10min.m4a) |
+| **4. Main YouTube Thumbnail (`1920×1080`)** | MrBeast / Dhruv Rathee High-CTR Winner | [**⬇️ Download `01_MRBEAST_2_SAAL_MAIN.jpg`**](https://github.com/sandhyachaudhary1234567890-ux/youtube-videos/raw/main/thumbnails/01_MRBEAST_2_SAAL_MAIN.jpg) |
+| **5. Full Written Production Package (`A–G`)** | Scored Hooks, 1,325-Word Script Table, SFX Cues, 5 Shorts | [**📄 Open `docs/MASTER_PRODUCTION_PACKAGE_A_TO_G.md`**](docs/MASTER_PRODUCTION_PACKAGE_A_TO_G.md) |
 
 ---
 
