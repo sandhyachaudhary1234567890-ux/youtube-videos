@@ -7,6 +7,10 @@ import os, sys, json, math, random, time, subprocess, multiprocessing
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter, ImageOps, ImageChops
 import imageio_ffmpeg
+try:
+    from .cinematic_editorial import refine_shots, synthesize_soundtrack, audio_mix_filter
+except ImportError:
+    from cinematic_editorial import refine_shots, synthesize_soundtrack, audio_mix_filter
 
 W, H = 1920, 1080
 FPS = 60
@@ -137,7 +141,7 @@ def build_shot_schedule(manifest):
         seg_id=p["id"]
         seg_start=p["start"]
         seg_end=p["end"]
-        seg_dur=p["duration"]
+        seg_dur=seg_end-seg_start
         face=p.get("face_cam",False)
         pool=POOL_MAP.get(seg_id, ALL_PLATE_FILES[:6])
         if face:
@@ -251,7 +255,7 @@ def build_shot_schedule(manifest):
         shots[0]["env"] = "dust"
     # sort by start
     shots.sort(key=lambda s: s["start"])
-    return shots
+    return refine_shots(shots, placements)
 
 # Vignette mask precomputed (1920x1080)
 def make_vignette(w=W,h=H,strength=0.92):
@@ -363,42 +367,18 @@ def render_two_layer_parallax(plate_path, shot, t, shot_progress):
     plate_img=get_plate_image(plate_path)
     if shot["seg_id"] == "05b_ncrb_telemanas":
         return parallax_frame(plate_img, 1.02 + 0.01*easeInOutCubic(shot_progress), 0.5, 0.5)
-    # parameters
-    dir_x=shot["dir_x"]; dir_y=shot["dir_y"]
-    # organic float multi-frequency
-    # use t for global time for continuity across shots? Use shot local + global
-    float_x = 0.008*math.sin(t*0.35*2*math.pi + shot["id"]*1.3) + 0.005*math.cos(t*0.82*2*math.pi)
-    float_y = 0.008*math.cos(t*0.28*2*math.pi + shot["id"]*0.7) + 0.004*math.sin(t*0.61*2*math.pi)
-    # base pan evolves with shot_progress
-    # bg slower, fg faster
-    base_pan_x=0.5 + dir_x*0.10*shot_progress
-    base_pan_y=0.5 + dir_y*0.08*shot_progress
-    # bg layer
-    pan_bg_x = base_pan_x*0.65 + float_x*0.6
-    pan_bg_y = base_pan_y*0.65 + float_y*0.6
-    # fg layer faster
-    pan_fg_x = base_pan_x*1.15 + float_x*1.4
-    pan_fg_y = base_pan_y*1.15 + float_y*1.4
-    # zooms
-    # subtle zoom in over shot
-    zoom_base = 1.02 + 0.06* easeOutCubic(shot_progress)
-    zoom_bg = zoom_base * 0.96
-    zoom_fg = zoom_base * 1.08
-    bg = parallax_frame(plate_img, zoom_bg, pan_bg_x, pan_bg_y)
-    fg = parallax_frame(plate_img, zoom_fg, pan_fg_x, pan_fg_y)
-    # depth cue: bg darker/desat
-    bg = ImageEnhance.Brightness(bg).enhance(0.88)
-    bg = ImageEnhance.Color(bg).enhance(0.88)
-    bg = ImageEnhance.Contrast(bg).enhance(0.96)
-    fg = ImageEnhance.Brightness(fg).enhance(1.02)
-    fg = ImageEnhance.Color(fg).enhance(1.04)
-    # Clean camera plane: blending differently scaled copies of the same photo
-    # creates double faces/clock hands. Foreground particles supply the second plane.
-    return fg
+    strength = shot.get("camera_strength", 1.0)
+    e = easeInOutCubic(float(shot_progress))
+    # Slow intentional drift rather than constant high-frequency handheld shake.
+    drift_x = math.sin(t * .55 + shot["id"]) * .004 * strength
+    drift_y = math.cos(t * .42 + shot["id"]) * .003 * strength
+    pan_x = .5 + strength * shot["dir_x"] * .10 * (e-.5) + drift_x
+    pan_y = .5 + strength * shot["dir_y"] * .07 * (e-.5) + drift_y
+    return parallax_frame(plate_img, 1.025 + .055*strength*e, pan_x, pan_y)
 
 def add_environmental(composed, shot, t, shot_progress, is_safe_zone):
     # is_safe_zone disables intense effects
-    if is_safe_zone:
+    if is_safe_zone or shot["env"] == "none":
         return composed
     else:
         env=shot["env"]
@@ -776,7 +756,8 @@ def draw_kinetic_caption(draw, text, highlight_word, accent, t, seg_start, seg_e
     words=text.split()
     # choose font size based on text length
     base_font=F_POP_LG if len(text)<=34 else F_POP_MD
-    active_font=F_POP_LG if len(text)<=34 else F_POP_MD  # will scale via size
+    while draw.textlength(text, font=base_font)*1.14 > W-180 and base_font.size > 20:
+        base_font=ImageFont.truetype("assets/fonts/Poppins-Bold.ttf", base_font.size-1)
     # Determine active word progression within line display window
     line_cnt=len(lines)
     line_dur=(seg_end-seg_start)/line_cnt
@@ -1333,10 +1314,14 @@ def apply_transition(prev_frame, curr_frame, trans_type, progress):
         # we can use blend function
         out=Image.blend(out, temp, e)
         # add directional blur hint when e ~0.5: darken slightly to mimic motion blur
-        if 0.35 < e < 0.65:
-            # add slight darken
-            enh=ImageEnhance.Brightness(out).enhance(0.88)
-            out=Image.blend(out, enh, 0.18)
+        blur = int(38 * math.sin(progress*math.pi))
+        if blur > 0:
+            accum = out
+            for tap, offset in enumerate((-blur, -blur//2, blur//2, blur), 2):
+                shifted = Image.new("RGB", (W,H))
+                shifted.paste(out, (offset,0))
+                accum = Image.blend(accum, shifted, 1.0/tap)
+            out = accum
         return out
     elif trans_type=="zoom":
         # zoom-through: prev scale 1.0 ->2.2, curr 0.85->1.0
@@ -1455,10 +1440,10 @@ def render_frame_wrapper(args):
     TRANS_FRAMES=8
     if idx>0 and frame_idx >= int(shot["start"]*FPS) and frame_idx < int(shot["start"]*FPS)+TRANS_FRAMES:
         # check if not safe zone
-        if shot["seg_id"]!="05b_ncrb_telemanas" and SHOTS[idx-1]["seg_id"]!="05b_ncrb_telemanas":
+        if shot["trans_type"] != "cut":
             is_transition=True
             prev_shot=SHOTS[idx-1]
-            trans_progress=(frame_idx - int(shot["start"]*FPS))/TRANS_FRAMES
+            trans_progress=(frame_idx - int(shot["start"]*FPS))/(TRANS_FRAMES-1)
     # active segment lookup
     # placements list for active seg
     # find active seg where start <= t <= end
@@ -1470,7 +1455,7 @@ def render_frame_wrapper(args):
     # shot progress
     shot_progress=np.clip((t - shot["start"])/max(0.001, shot["duration"]),0,1)
     # white flash at 0.08
-    if 0.08 <= t <0.13:
+    if False: # no opening white strobe
         return Image.new("RGB",(W,H),(255,255,255))
     # end card black after 596.2+0.08
     if t >= PLACEMENTS[-1]["end"]+0.08:
@@ -1496,9 +1481,9 @@ def render_frame_wrapper(args):
         prev_shot_progress=1.0 - 1e-4
         # render prev base
         prev_bg=render_two_layer_parallax(prev_shot["plate"], prev_shot, prev_t, prev_shot_progress)
-        prev_bg=add_environmental(prev_bg, prev_shot, prev_t, prev_shot_progress, False)
+        prev_bg=add_environmental(prev_bg, prev_shot, prev_t, prev_shot_progress, prev_shot["seg_id"]=="05b_ncrb_telemanas")
         # apply film look with prev grade
-        prev_bg=apply_film_look(prev_bg, prev_shot["grade"], prev_t, frame_idx-TRANS_FRAMES, False)
+        prev_bg=apply_film_look(prev_bg, prev_shot["grade"], prev_t, frame_idx-TRANS_FRAMES, prev_shot["seg_id"]=="05b_ncrb_telemanas")
         # overlay graphics for prev time? For transition we should not include kinetic captions of both? Simplify: include graphics of current t? But better include prev graphics at prev_t and curr at t and blend?
         # To keep simple, we render both with full graphics at respective times and then transition blend
         # But to avoid double captions, we will render base only and then after transition add current graphics
@@ -1512,8 +1497,8 @@ def render_frame_wrapper(args):
         prev_bg=overlay_graphics(prev_bg, prev_t, P_MAP, prev_active, prev_shot, SHOTS)
 
         curr_bg=render_two_layer_parallax(shot["plate"], shot, t, shot_progress)
-        curr_bg=add_environmental(curr_bg, shot, t, shot_progress, False)
-        curr_bg=apply_film_look(curr_bg, shot["grade"], t, frame_idx, False)
+        curr_bg=add_environmental(curr_bg, shot, t, shot_progress, shot["seg_id"]=="05b_ncrb_telemanas")
+        curr_bg=apply_film_look(curr_bg, shot["grade"], t, frame_idx, shot["seg_id"]=="05b_ncrb_telemanas")
         curr_bg=overlay_graphics(curr_bg, t, P_MAP, active, shot, SHOTS)
         # now transition blend
         blended=apply_transition(prev_bg, curr_bg, shot["trans_type"], trans_progress)
@@ -1528,7 +1513,7 @@ def render_frame_wrapper(args):
         # glitch effect for non-safe close (0.0-0.09 per 8s)
         mod8=t%8.0
         in_close = t >= P_MAP["10b_facecam_close"]["start"]-0.3
-        do_glitch = (not is_safe and not in_close and 0.0 <= mod8 <0.09 and int(t//8)%2==1 and t>4.0)
+        do_glitch = False # clean documentary continuity, no timer-driven glitches
         if do_glitch:
             # RGB split
             r,g,b=base.split()
@@ -1655,6 +1640,8 @@ def main():
     cmd=[FFMPEG,"-y","-f","concat","-safe","0","-i",concat_txt,"-c","copy", silent_video]
     subprocess.run(cmd, check=True)
     print(f"Concatenated silent video {os.path.getsize(silent_video)/1e6:.2f} MB")
+    sound_path="/tmp/cinematic_transitions.wav"
+    synthesize_soundtrack(shots, manifest, sound_path)
     # mux audio stems
     # Need to mux: silent video + bgm_and_sfx_only_10min.m4a + ai_voiceover_timed_10min.m4a? Actually final master should have both voice and bgm mixed? Original master MP4 audio is mixed voice + bgm. We have stems: bgm_and_sfx_only and ai_voiceover. The original build_audio_master.py mixes them with sidechain. But we have existing stems; we can mux by mixing them via ffmpeg amix
     # The simplest: mux with bgm_and_sfx + voiceover mixed as done in build_audio_master? But we haven't run build_audio_master, we have stems already. We can just mix them with ffmpeg amix and sidechain? Simpler: use same logic as replace_voice but with AI voiceover as input.
@@ -1670,11 +1657,9 @@ def main():
         "-i", silent_video,
         "-i", "videos/audio_stems/ai_voiceover_timed_10min.m4a",
         "-i", "videos/audio_stems/bgm_and_sfx_only_10min.m4a",
+        "-i", sound_path,
         "-filter_complex",
-        "[1:a]highpass=f=80,acompressor=threshold=-18dB:ratio=3:attack=10:release=120,volume=1.35,asplit=2[vo][sc];"
-        f"[2:a]volume=0:enable='between(t,{p_map['05b_ncrb_telemanas']['start']},{p_map['05b_ncrb_telemanas']['end']})'[safe_bed];"
-        "[safe_bed][sc]sidechaincompress=threshold=0.02:ratio=6:attack=25:release=280[ducked_bed];"
-        "[vo][ducked_bed]amix=inputs=2:duration=longest:dropout_transition=0,alimiter=limit=0.95[aout]",
+        audio_mix_filter(p_map['05b_ncrb_telemanas']['start'], p_map['05b_ncrb_telemanas']['end']),
         "-map","0:v:0","-map","[aout]",
         "-c:v","copy","-c:a","aac","-b:a","160k","-movflags","+faststart","-shortest","-r",str(FPS),
         final_mp4
